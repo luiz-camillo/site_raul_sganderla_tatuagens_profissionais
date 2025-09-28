@@ -1,0 +1,88 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background: #000;
+  color: #f5d142;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  overflow-x: hidden; /* garante que nada vaze pros lados */
+}
+
+.logo {
+  font-size: 1.5rem; /* aumenta o tamanho */
+  font-weight: bold; /* mantém em negrito */
+  letter-spacing: 2px; /* espaçamento entre letras */
+  text-transform: uppercase; /* garante tudo maiúsculo */
+  font-family: "Cinzel Decorative", serif; /* exemplo artístico */
+}
+
+.menu {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px; /* comprimento da barra */
+  height: 18px; /* espaço total entre as linhas */
+  cursor: pointer;
+}
+
+.menu::before,
+.menu::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px; /* espessura da linha */
+  background: #f5d142; /* cor (dourado) */
+  border-radius: 2px;
+}
+
+.menu::before {
+  top: 0; /* primeira linha */
+}
+
+.menu::after {
+  bottom: 0; /* segunda linha */
+}
+
+header {
+  transition: top 0.5s ease;
+}
+
+header.hidden {
+  top: -100px;
+  transition: top 0.4s ease;
+}
+
+.hero {
+  height: auto; /* altura vai se ajustar à imagem */
+  background: #000; /* fundo preto pra acompanhar */
+  display: flex;
+  justify-content: center; /* centraliza horizontal */
+  align-items: center; /* centraliza vertical */
+  padding: 40px 0; /* espaço em cima/baixo */
+}
+
+.hero img {
+  max-width: 100%; /* não estoura a tela */
+  height: auto; /* mantém proporção */
+  display: block;
+}
+
+/*deletar*/
+
+body {
+  min-height: 200vh; /* força a página a ter o dobro da altura da tela */
+}
