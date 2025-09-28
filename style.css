@@ -5,6 +5,7 @@ body {
   color: #fff;
 }
 
+/* --- HEADER --- */
 header {
   position: fixed;
   top: 0;
@@ -17,15 +18,20 @@ header {
   align-items: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
   z-index: 1000;
-  overflow-x: hidden; /* garante que nada vaze pros lados */
+  overflow-x: hidden;
+  transition: top 0.5s ease;
+}
+
+header.hidden {
+  top: -100px;
 }
 
 .logo {
-  font-size: 1.5rem; /* aumenta o tamanho */
-  font-weight: bold; /* mantém em negrito */
-  letter-spacing: 2px; /* espaçamento entre letras */
-  text-transform: uppercase; /* garante tudo maiúsculo */
-  font-family: "Cinzel Decorative", serif; /* exemplo artístico */
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: "Cinzel Decorative", serif;
 }
 
 .menu {
@@ -33,8 +39,8 @@ header {
   right: 40px;
   top: 50%;
   transform: translateY(-50%);
-  width: 60px; /* comprimento da barra */
-  height: 18px; /* espaço total entre as linhas */
+  width: 60px;
+  height: 18px;
   cursor: pointer;
 }
 
@@ -44,45 +50,103 @@ header {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 3px; /* espessura da linha */
-  background: #f5d142; /* cor (dourado) */
+  height: 3px;
+  background: #f5d142;
   border-radius: 2px;
 }
 
 .menu::before {
-  top: 0; /* primeira linha */
+  top: 0;
 }
-
 .menu::after {
-  bottom: 0; /* segunda linha */
+  bottom: 0;
 }
 
-header {
-  transition: top 0.5s ease;
-}
-
-header.hidden {
-  top: -100px;
-  transition: top 0.4s ease;
-}
-
+/* --- HERO --- */
 .hero {
-  height: auto; /* altura vai se ajustar à imagem */
-  background: #000; /* fundo preto pra acompanhar */
+  position: relative; /* garante que os filhos respeitem a hierarquia */
+  background: url("/src/388b2e3b-8a57-4d54-bd9e-a25daaba2741.jpg") no-repeat
+    center center; /* imagem de fundo */
+  background-size: cover; /* cobre toda a área */
   display: flex;
-  justify-content: center; /* centraliza horizontal */
-  align-items: center; /* centraliza vertical */
-  padding: 40px 0; /* espaço em cima/baixo */
+  justify-content: right;
+  align-items: center;
+  height: 90vh;
+  padding: 0;
+  overflow: hidden;
 }
 
 .hero img {
-  max-width: 100%; /* não estoura a tela */
-  height: auto; /* mantém proporção */
-  display: block;
+  position: relative; /* fica na frente do fundo */
+  z-index: 2; /* garante que está acima do bg */
+  height: 100%;
+  width: auto;
+  object-fit: contain;
 }
 
-/*deletar*/
+/* --- CARROSSEL --- */
+.carrossel {
+  position: relative;
+  background: #fff;
+  padding: 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-body {
-  min-height: 200vh; /* força a página a ter o dobro da altura da tela */
+.carrossel-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  width: 95%;
+}
+
+.item {
+  flex: 0 0 auto;
+  width: 400px;
+  height: 500px;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ccc;
+}
+
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.item img:hover {
+  transform: scale(1.05);
+}
+
+/* --- SETAS --- */
+.seta {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  padding: 5px 8px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.seta:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.seta.esquerda {
+  left: 5px;
+}
+.seta.direita {
+  right: 5px;
 }

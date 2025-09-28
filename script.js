@@ -1,3 +1,4 @@
+// ----- HEADER ESCONDER/APARECER -----
 let timeout;
 let lastScrollTop = 0;
 let isHovering = false;
@@ -30,4 +31,17 @@ window.addEventListener("scroll", () => {
   }
 
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+});
+
+// ----- CARROSSEL -----
+const container = document.querySelector(".carrossel-container");
+const btnEsquerda = document.querySelector(".seta.esquerda");
+const btnDireita = document.querySelector(".seta.direita");
+
+btnDireita.addEventListener("click", () => {
+  container.scrollBy({ left: 400, behavior: "smooth" }); // scroll p/ direita
+});
+
+btnEsquerda.addEventListener("click", () => {
+  container.scrollBy({ left: -400, behavior: "smooth" }); // scroll p/ esquerda
 });
