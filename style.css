@@ -27,20 +27,21 @@ header.hidden {
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
   letter-spacing: 2px;
   text-transform: uppercase;
   font-family: "Cinzel Decorative", serif;
+  text-align: center;
 }
 
 .menu {
   position: absolute;
-  right: 40px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  width: 60px;
-  height: 18px;
+  width: 40px;
+  height: 16px;
   cursor: pointer;
 }
 
@@ -64,12 +65,12 @@ header.hidden {
 
 /* --- HERO --- */
 .hero {
-  position: relative; /* garante que os filhos respeitem a hierarquia */
-  background: url("/src/388b2e3b-8a57-4d54-bd9e-a25daaba2741.jpg") no-repeat
-    center center; /* imagem de fundo */
-  background-size: cover; /* cobre toda a área */
+  position: relative;
+  background: url("src/388b2e3b-8a57-4d54-bd9e-a25daaba2741.jpg") no-repeat
+    center center;
+  background-size: cover;
   display: flex;
-  justify-content: right;
+  justify-content: center;
   align-items: center;
   height: 90vh;
   padding: 0;
@@ -77,10 +78,10 @@ header.hidden {
 }
 
 .hero img {
-  position: relative; /* fica na frente do fundo */
-  z-index: 2; /* garante que está acima do bg */
-  height: 100%;
-  width: auto;
+  position: relative;
+  z-index: 2;
+  max-height: 100%;
+  max-width: 100%;
   object-fit: contain;
 }
 
@@ -88,29 +89,33 @@ header.hidden {
 .carrossel {
   position: relative;
   background: #fff;
-  padding: 40px 0;
+  padding: 30px 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .carrossel-container {
   display: flex;
-  gap: 20px;
-  overflow-x: hidden;
+  gap: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
   width: 95%;
 }
 
 .item {
   flex: 0 0 auto;
-  width: 400px;
-  height: 500px;
+  width: 300px;
+  height: 400px;
   background: #eee;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .item img {
@@ -132,8 +137,8 @@ header.hidden {
   background: rgba(0, 0, 0, 0.4);
   color: #fff;
   border: none;
-  font-size: 1rem;
-  padding: 5px 8px;
+  font-size: 1.5rem;
+  padding: 8px 12px;
   cursor: pointer;
   z-index: 10;
   border-radius: 3px;
@@ -149,4 +154,48 @@ header.hidden {
 }
 .seta.direita {
   right: 5px;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 1024px) {
+  .item {
+    width: 250px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    height: 45px;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .item {
+    width: 200px;
+    height: 280px;
+  }
+
+  .seta {
+    font-size: 1.2rem;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .item {
+    width: 150px;
+    height: 200px;
+  }
+
+  .logo {
+    font-size: 0.9rem;
+  }
+
+  .menu {
+    width: 30px;
+    height: 12px;
+  }
 }
