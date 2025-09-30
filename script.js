@@ -45,3 +45,16 @@ btnDireita.addEventListener("click", () => {
 btnEsquerda.addEventListener("click", () => {
   container.scrollBy({ left: -400, behavior: "smooth" }); // scroll p/ esquerda
 });
+
+// animação on scroll
+const aboutSection = document.querySelector(".about-text");
+
+function checkVisibility() {
+  const rect = aboutSection.getBoundingClientRect();
+  if (rect.top < window.innerHeight - 100) {
+    aboutSection.classList.add("show");
+  }
+}
+
+window.addEventListener("scroll", checkVisibility);
+checkVisibility();
