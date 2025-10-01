@@ -10,9 +10,9 @@ header {
   position: fixed;
   top: 0;
   width: 100%;
-  height: 50px;
+  height: 60px;
   background: #000;
-  color: #f5d142;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,12 +27,13 @@ header.hidden {
 }
 
 .logo {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: 4px;
   text-transform: uppercase;
   font-family: "Playfair Display", serif;
   text-align: center;
+  color: #fff; /* dourado */
 }
 
 .menu {
@@ -41,10 +42,14 @@ header.hidden {
   top: 50%;
   transform: translateY(-50%);
   width: 40px;
-  height: 16px;
+  height: 20px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.menu span,
 .menu::before,
 .menu::after {
   content: "";
@@ -52,15 +57,21 @@ header.hidden {
   left: 0;
   width: 100%;
   height: 3px;
-  background: #f5d142;
+  background: #fff;
   border-radius: 2px;
 }
 
-.menu::before {
-  top: 0;
+.menu span {
+  top: 50%; /* linha do meio */
+  transform: translateY(-50%);
 }
+
+.menu::before {
+  top: 0; /* linha de cima */
+}
+
 .menu::after {
-  bottom: 0;
+  bottom: 0; /* linha de baixo */
 }
 
 /* --- HERO --- */
@@ -68,41 +79,84 @@ header.hidden {
   position: relative;
   background: #000; /* mantém fundo preto */
   display: flex;
-  justify-content: center; /* joga a imagem pra direita */
+  justify-content: right; /* joga a imagem pra direita */
   align-items: center;
-  height: 110vh;
+  height: 100vh;
   padding: 0;
-  margin-left: 30%;
+  padding-right: 40vh;
+  margin-left: 0%;
   overflow: hidden;
 }
 .hero img {
   position: relative;
   z-index: 1;
-  max-height: 100%;
-  max-width: 100%;
+  max-height: 110%;
+  max-width: 120%;
   object-fit: contain;
 
-  /* máscara que tu já tinha */
+  /* máscara gradiente nos dois lados */
   -webkit-mask-image: linear-gradient(
     to right,
-    rgba(0, 0, 0, 1) 85%,
-    rgba(0, 0, 0, 0) 100%
+    rgba(0, 0, 0, 0) 0%,
+    /* transparente no começo (fade esquerda) */ rgba(0, 0, 0, 1) 20%,
+    /* opaco no meio-esquerda */ rgba(0, 0, 0, 1) 80%,
+    /* opaco até quase o fim */ rgba(0, 0, 0, 0) 100%
+      /* transparente no final (fade direita) */
   );
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: cover;
+
   mask-image: linear-gradient(
     to right,
-    rgba(0, 0, 0, 1) 85%,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 1) 80%,
     rgba(0, 0, 0, 0) 100%
   );
   mask-repeat: no-repeat;
   mask-size: cover;
-  /* ANIMAÇÃO DO ZOOM */
-  transition: transform 1.5s ease;
+
+  transition: transform 1.1s ease;
 }
 
 .hero img:hover {
   transform: scale(1.3); /* aumenta em 10% */
+}
+
+.hero-ornamento {
+  position: absolute;
+  left: 50px; /* gruda mais no canto, pode ajustar */
+  top: 25%; /* centraliza na vertical */
+  transform: translateY(-50%);
+  z-index: 5;
+}
+
+.hero-ornamento img {
+  background-color: white;
+  width: 80px;
+  height: auto;
+  display: block;
+  transition: none !important;
+  transform: none !important;
+
+  /* vinheta suave nos cantos */
+  -webkit-mask-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 1) 85%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: cover;
+
+  mask-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 1) 1%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: cover;
 }
 
 /* --- CARROSSEL --- */
@@ -220,140 +274,105 @@ header.hidden {
   }
 }
 
-/* --- DIVISOR --- */
-.divider {
-  width: 100%;
-  height: 50px; /* ajusta a altura conforme a imagem */
-  background-image: url("src/388b2e3b-8a57-4d54-bd9e-a25daaba2741.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover; /* cobre toda a div */
-}
-
-/* --- ABOUT TRÊS DIVS --- */
 .about {
   display: flex;
-  min-height: 80vh;
-  background: #fff; /* fundo branco padrão */
-}
-
-/* div1 = espaço vazio */
-.about .div1 {
-  flex: 0 0 0.5%; /* ajusta largura da faixa branca */
+  flex-wrap: wrap;
+  min-height: 90vh;
   background: #fff;
 }
 
-/* div2 = foto */
-.about .div2 {
-  flex: 0 0 40%; /* controla largura da foto */
+/* Lado esquerdo: imagem */
+.about {
+  display: flex;
+  min-height: 4vh;
+  background: #000;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* espaço entre os blocos */
+}
+
+/* Palavra vertical na esquerda */
+.vertical-word {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Cinzel Decorative", serif;
+  font-weight: bold;
+  font-size: 2.4rem;
+  letter-spacing: 4px;
+  position: relative;
+  left: 5vh;
+}
+.vertical-word span {
+  margin: 5px 0;
+  color: #fff;
+}
+.vertical-word small {
+  position: absolute;
+  left: -20px; /* joga pro lado da borda */
+  top: 0;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Imagem no centro */
+.about-image {
+  flex: 1;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.about-image img {
+  width: 80%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 4px;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 15%,
+    rgba(0, 0, 0, 1) 85%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 15%,
+    rgba(0, 0, 0, 1) 85%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-repeat: no-repeat;
+  mask-size: cover;
+}
+
+/* Quote na direita */
+.quote {
+  margin-left: -60px; /* aproxima do Horiushi */
+}
+
+.quote p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #ddd;
+  max-width: 600px;
+  transition: transform 2.3s ease, color 0.3s ease; /* animação suave */
+}
+
+.quote p:hover {
+  transform: scale(1.1); /* zoom quando passar o mouse */
+  color: #fff; /* fica mais branco no hover */
+}
+.section-divider {
+  width: 100%;
+  height: 40px; /* ajusta a altura */
+  background: linear-gradient(to right, #000, #363635, #000);
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
-}
-
-.about .div2 img {
-  max-width: 90%; /* controla tamanho */
-  height: auto;
-  background-color: #000;
-  display: block;
-}
-
-/* div3 = texto */
-.about .div3 {
-  flex: 1; /* pega o resto */
-  background: #fff;
-  color: #111;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0px;
-}
-
-.about .div3 h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  font-family: "Cinzel Decorative", serif;
-  color: #000;
-}
-
-.about .div3 p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin-bottom: 15px;
-}
-
-.about-text {
-  flex: 1;
-  background: #fff;
-  color: #111;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 80px 80px 80px 100px;
-  position: relative;
-  font-family: "Merriweather", serif;
-}
-
-/* linha lateral estilo pincel */
-.about-text::before {
-  content: "";
-  position: absolute;
-  left: 40px;
-  top: 15%;
-  bottom: 15%;
-  width: 4px;
-  background: linear-gradient(to bottom, #000, #f5d142, #000);
-  border-radius: 2px;
-}
-
-/* título */
-.about-text h2 {
-  font-size: 3.5rem;
-  margin-bottom: 25px;
-  color: #000;
-  font-family: "Cinzel Decorative", serif;
-  letter-spacing: 4px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-/* kanji */
-.about-text h2::after {
-  content: " 和";
-  font-size: 2.5rem;
-  color: #f5d142;
-  font-family: "Noto Serif JP", serif;
-  margin-left: 10px;
-}
-
-/* parágrafos */
-.about-text p {
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1.3rem;
-  line-height: 2.1;
-  color: #222;
-  margin-bottom: 25px;
-  text-align: justify;
-  max-width: 680px;
-}
-
-/* primeira letra capitular */
-.about-text p:first-letter {
-  font-size: 3rem;
-  font-weight: bold;
-  float: left;
-  line-height: 1;
-  margin-right: 8px;
-  color: #000;
-  font-family: "Cinzel Decorative", serif;
-}
-
-/* destaque estilo mantra */
-.about-text p.highlight {
-  font-size: 1.5rem;
-  font-style: italic;
-  color: #f5d142;
-  text-align: center;
-  margin: 40px 0;
+  overflow: hidden;
 }
