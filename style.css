@@ -294,13 +294,13 @@ header.hidden {
 
 /* Palavra vertical na esquerda */
 .vertical-word {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
-  font-family: "Cinzel Decorative", serif;
+  font-family: "Playfair Display", serif;
   font-weight: bold;
-  font-size: 2.4rem;
-  letter-spacing: 4px;
+  font-size: 3rem;
+  letter-spacing: 1px;
   position: relative;
   left: 5vh;
 }
