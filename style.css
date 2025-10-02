@@ -126,7 +126,7 @@ header.hidden {
 .hero-ornamento {
   position: absolute;
   left: 50px; /* gruda mais no canto, pode ajustar */
-  top: 25%; /* centraliza na vertical */
+  top: 20%; /* centraliza na vertical */
   transform: translateY(-50%);
   z-index: 5;
 }
