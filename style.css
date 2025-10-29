@@ -116,7 +116,7 @@ header.hidden {
   mask-repeat: no-repeat;
   mask-size: cover;
 
-  transition: transform 1.1s ease;
+  transition: transform 1.8s ease;
 }
 
 .hero img:hover {
