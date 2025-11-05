@@ -163,33 +163,42 @@ header.hidden {
 .carrossel {
   position: relative;
   background: #fff;
-  padding: 30px 0;
+  padding: 80px 0; /* Aumentei o padding vertical */
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  min-height: 700px; /* Autura mínima maior */
 }
 
 .carrossel-container {
   display: flex;
-  gap: 15px;
+  gap: 25px;  /* Aumentei o gap entre os itens */
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
   width: 95%;
+   padding: 30px 0; /* Padding interno maior */
+  scroll-padding: 0 50%;
+}
+
+.carrossel-container::-webkit-scrollbar {
+  display: none;
 }
 
 .item {
   flex: 0 0 auto;
-  width: 300px;
-  height: 400px;
+  width: 450px; /* Aumentei bastante a largura */
+  height: 600px; /* Aumentei bastante a altura */
   background: #eee;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #ccc;
-  border-radius: 8px;
+  border: 3px solid #ccc; /* Borda mais grossa */
+  border-radius: 12px; /* Bordas mais arredondadas */
   overflow: hidden;
+  transition: transform 0.4s ease, filter 0.6s ease-in-out, border-color 0.4s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Sombra mais pronunciada */
 }
 
 .item img {
@@ -198,7 +207,7 @@ header.hidden {
   object-fit: cover;
   cursor: pointer;
  /* NOVO: Adiciona transição suave para o filtro de cor */
-  transition: transform 0.3s ease, filter 0.6s ease-in-out; 
+  transition: transform 0.4s ease, filter 0.6s ease-in-out; 
 
   /* NOVO: Efeito Preto e Branco (Grayscale) aplicado por padrão a TODas as imagens */
   filter: grayscale(100%); 
@@ -210,88 +219,44 @@ header.hidden {
 }
 
 .item img:hover {
-  transform: scale(1.05);
+  transform: scale(1.08); /* Aumentei o hover também */
 }
 
 /* --- SETAS --- */
 .seta {
-  position: absolute;
+   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border: none;
-  font-size: 1.5rem;
-  padding: 8px 12px;
+  font-size: 2.5rem; /* Setas maiores */
+  padding: 20px 25px; /* Padding maior */
   cursor: pointer;
   z-index: 10;
-  border-radius: 3px;
-  transition: background 0.3s ease;
+  border-radius: 50%;
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: 70px; /* Largura maior */
+  height: 70px; /* Altura maior */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .seta:hover {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.95);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .seta.esquerda {
-  left: 5px;
+  left: 40px; /* Mais afastado da borda */
 }
+
 .seta.direita {
-  right: 5px;
+  right: 40px; /* Mais afastado da borda */
 }
 
-/* --- RESPONSIVIDADE --- */
-@media (max-width: 1024px) {
-  .item {
-    width: 250px;
-    height: 350px;
-  }
-}
-
-@media (max-width: 768px) {
-  header {
-    height: 45px;
-  }
-
-  .logo {
-    font-size: 1rem;
-  }
-
-  .item {
-    width: 200px;
-    height: 280px;
-  }
-
-  .seta {
-    font-size: 1.2rem;
-    padding: 6px 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .item {
-    width: 150px;
-    height: 200px;
-  }
-
-  .logo {
-    font-size: 0.9rem;
-  }
-
-  .menu {
-    width: 30px;
-    height: 12px;
-  }
-}
-
-.about {
-  display: flex;
-  flex-wrap: wrap;
-  min-height: 90vh;
-  background: #fff;
-}
-
-/* Lado esquerdo: imagem */
+/* --- ABOUT SECTION --- */
 .about {
   display: flex;
   min-height: 4vh;
@@ -299,10 +264,10 @@ header.hidden {
   color: #fff;
   align-items: center;
   justify-content: center;
-  gap: 10px; /* espaço entre os blocos */
+  gap: 10px;
 }
 
-/* Palavra vertical na esquerda */
+
 .vertical-word {
   display: inline-flex;
   flex-direction: column;
@@ -314,25 +279,28 @@ header.hidden {
   position: relative;
   left: 5vh;
 }
+
 .vertical-word span {
   margin: 5px 0;
   color: #fff;
 }
+
 .vertical-word small {
   position: absolute;
-  left: -20px; /* joga pro lado da borda */
+  left: -20px;
   top: 0;
   font-size: 0.9rem;
   color: #777;
 }
 
-/* Imagem no centro */
+
 .about-image {
   flex: 1;
   display: flex;
   justify-content: left;
   align-items: center;
 }
+
 .about-image img {
   width: 80%;
   height: auto;
@@ -359,9 +327,9 @@ header.hidden {
   mask-size: cover;
 }
 
-/* Quote na direita */
+
 .quote {
-  margin-left: -60px; /* aproxima do Horiushi */
+  margin-left: -60px;
 }
 
 .quote p {
@@ -370,19 +338,153 @@ header.hidden {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #ddd;
   max-width: 600px;
-  transition: transform 2.3s ease, color 0.3s ease; /* animação suave */
+  transition: transform 2.3s ease, color 0.3s ease;
 }
 
 .quote p:hover {
-  transform: scale(1.1); /* zoom quando passar o mouse */
-  color: #fff; /* fica mais branco no hover */
+  transform: scale(1.1);
+  color: #fff;
 }
+
 .section-divider {
   width: 100%;
-  height: 40px; /* ajusta a altura */
+  height: 40px;
   background: linear-gradient(to right, #000, #363635, #000);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 1200px) {
+  .item {
+    width: 400px;
+    height: 550px;
+  }
+  
+  .carrossel {
+    min-height: 650px;
+    padding: 70px 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .item {
+    width: 350px;
+    height: 500px;
+  }
+  
+  .carrossel-container {
+    width: 90%;
+  }
+  
+  .carrossel {
+    min-height: 600px;
+    padding: 60px 0;
+  }
+  
+  header {
+    height: 50px;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+  
+  .seta {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    padding: 15px 20px;
+  }
+  
+  .seta.esquerda {
+    left: 25px;
+  }
+  
+  .seta.direita {
+    right: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .item {
+    width: 300px;
+    height: 450px;
+  }
+  
+  .carrossel {
+    min-height: 550px;
+    padding: 50px 0;
+  }
+  
+  .seta {
+    width: 55px;
+    height: 55px;
+    font-size: 1.8rem;
+    padding: 12px 16px;
+  }
+  
+  .seta.esquerda {
+    left: 15px;
+  }
+  .seta.direita {
+    right: 15px;
+  }
+  
+  header {
+    height: 45px;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .menu {
+    width: 35px;
+    height: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .item {
+    width: 280px;
+    height: 400px;
+  }
+  
+  .carrossel {
+    min-height: 500px;
+    padding: 40px 0;
+  }
+  
+  .carrossel-container {
+    width: 85%;
+    gap: 20px;
+  }
+  
+  .logo {
+    font-size: 0.9rem;
+  }
+
+  .menu {
+    width: 30px;
+    height: 12px;
+  }
+  
+  .vertical-word {
+    font-size: 2rem;
+    left: 2vh;
+  }
+  
+  .quote p {
+    font-size: 1rem;
+  }
+  
+  .seta {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    padding: 10px 14px;
+  }
 }
