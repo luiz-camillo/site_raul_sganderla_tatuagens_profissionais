@@ -12,7 +12,7 @@ header.addEventListener("mouseleave", () => (isHovering = false));
 window.addEventListener("scroll", () => {
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
-  // se está no topo -> header sempre visível e não esconde nunca
+  // se está no topo -> header sempre visível
   if (scrollTop <= 0) {
     clearTimeout(timeout);
     header.classList.remove("hidden");
@@ -22,7 +22,7 @@ window.addEventListener("scroll", () => {
   // sempre mostra quando rolar
   header.classList.remove("hidden");
 
-  // só agenda esconder se rolou pra baixo e não tá com mouse em cima
+  // agenda esconder se rolou pra baixo e não tá com mouse em cima
   if (scrollTop > lastScrollTop && !isHovering) {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
@@ -33,140 +33,125 @@ window.addEventListener("scroll", () => {
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 });
 
-// ----- CARROSSEL -----
+// ----- CARROSSEL INFINITO COM EVENT LISTENERS (Otimizado) -----
 const container = document.querySelector(".carrossel-container");
 const btnEsquerda = document.querySelector(".seta.esquerda");
 const btnDireita = document.querySelector(".seta.direita");
-const items = document.querySelectorAll(".carrossel-container .item");
+let items = Array.from(container.querySelectorAll(".item"));
 
-// Função para identificar e colorir apenas o item central
-function updateActiveItem() {
+let currentIndex = 0;
+let isMoving = false; // 👈 NOVA FLAG: Bloqueia cliques durante transições rápidas
+let scrollTimer; // 👈 NOVO TIMER: Usado para detectar o fim da rolagem
+
+// Clonar primeiro e último item para efeito infinito
+if (items.length > 0) {
+  const firstClone = items[0].cloneNode(true);
+  const lastClone = items[items.length - 1].cloneNode(true);
+
+  container.appendChild(firstClone);
+  container.insertBefore(lastClone, items[0]);
+}
+
+// Atualizar lista de items (agora inclui os dois clones)
+items = Array.from(container.querySelectorAll(".item"));
+
+// Começar no primeiro item real (índice 1)
+currentIndex = 1;
+centralizarItem(currentIndex, false);
+
+function centralizarItem(index, smooth = true) {
+  // Validação básica para evitar erros
+  if (index < 0 || index >= items.length) return;
+
+  items.forEach((i) => i.classList.remove("active"));
+  const item = items[index];
+  if (!item) return;
+
+  item.classList.add("active");
+
   const containerWidth = container.offsetWidth;
-  const scrollLeft = container.scrollLeft;
-  
-  let centralItem = null;
-  let minDistance = Infinity;
+  const itemWidth = item.offsetWidth;
+  const target = item.offsetLeft + itemWidth / 2 - containerWidth / 2;
 
-  items.forEach((item) => {
-    const itemOffsetLeft = item.offsetLeft;
-    const itemWidth = item.offsetWidth;
-    
-    // Calcula a posição central do item
-    const itemCenter = itemOffsetLeft + (itemWidth / 2);
-    
-    // Calcula a posição central do container
-    const containerCenter = scrollLeft + (containerWidth / 2);
-    
-    // Distância do centro do item para o centro do container
-    const distance = Math.abs(itemCenter - containerCenter);
-    
-    // Encontra o item mais próximo do centro
-    if (distance < minDistance) {
-      minDistance = distance;
-      centralItem = item;
-    }
+  container.scrollTo({ left: target, behavior: smooth ? "smooth" : "auto" });
+}
 
-    // Remove as classes de todos os itens
-    item.classList.remove('active');
-  });
+// -------------------------------------------------------------
+// NOVO BLOCO: Lógica de Salto do Loop após o fim da animação
+// -------------------------------------------------------------
+function handleLoopTransition() {
+  isMoving = false; // Libera os botões
 
-  // Adiciona a classe 'active' apenas ao item central
-  if (centralItem) {
-    centralItem.classList.add('active');
+  // Se estiver no clone final (índice items.length - 1), salta para o primeiro real (índice 1)
+  if (currentIndex === items.length - 1) {
+    currentIndex = 1;
+    centralizarItem(currentIndex, false); // Salto imediato (auto)
+  }
+  // Se estiver no clone inicial (índice 0), salta para o último real (índice items.length - 2)
+  else if (currentIndex === 0) {
+    currentIndex = items.length - 2;
+    centralizarItem(currentIndex, false); // Salto imediato (auto)
   }
 }
 
-// Ajusta o scroll para centralizar o primeiro item ao carregar
-function centerFirstItem() {
-  const firstItem = document.querySelector('.item');
-  if (firstItem && container) {
-    const containerWidth = container.offsetWidth;
-    const itemWidth = firstItem.offsetWidth;
-    const targetScroll = (firstItem.offsetLeft + (itemWidth / 2)) - (containerWidth / 2);
-    
-    container.scrollLeft = targetScroll;
-    // Pequeno delay para garantir que o scroll foi aplicado
-    setTimeout(updateActiveItem, 100);
-  }
-}
+// Listener para detectar quando o scroll suave terminou
+container.addEventListener("scroll", () => {
+  // Limpa o timer anterior
+  clearTimeout(scrollTimer);
 
-// Navegação para a direita - centraliza o próximo item
+  // Se a flag isMoving estiver ativa (indicando que estamos em uma transição de clique/loop)
+  if (isMoving) {
+    // Verifica a posição após um breve período de 100ms
+    scrollTimer = setTimeout(() => {
+      handleLoopTransition();
+    }, 100);
+  }
+});
+// -------------------------------------------------------------
+
+// Navegação Direita
 btnDireita.addEventListener("click", () => {
-  const activeItem = document.querySelector('.item.active');
-  let nextItem;
-  
-  if (activeItem && activeItem.nextElementSibling) {
-    nextItem = activeItem.nextElementSibling;
-  } else {
-    // Se não há próximo item, vai para o primeiro (loop)
-    nextItem = document.querySelector('.item');
+  if (isMoving) return; // Bloqueia cliques durante o movimento/salto
+
+  // Verifica se o próximo clique levará ao clone final
+  if (currentIndex >= items.length - 2) {
+    isMoving = true; // Ativa a flag para que o scroll listener detecte o fim
   }
-  
-  if (nextItem) {
-    const containerWidth = container.offsetWidth;
-    const itemWidth = nextItem.offsetWidth;
-    const targetScroll = (nextItem.offsetLeft + (itemWidth / 2)) - (containerWidth / 2);
-    
-    container.scrollTo({
-      left: targetScroll,
-      behavior: "smooth"
-    });
-    
-    // Atualiza o item ativo após a animação de scroll
-    setTimeout(updateActiveItem, 500);
+
+  currentIndex++;
+  centralizarItem(currentIndex);
+
+  // Se não for para um clone, a transição normal já terminou
+  if (!isMoving) {
+    isMoving = false;
   }
 });
 
-// Navegação para a esquerda - centraliza o item anterior
+// Navegação Esquerda
 btnEsquerda.addEventListener("click", () => {
-  const activeItem = document.querySelector('.item.active');
-  let prevItem;
-  
-  if (activeItem && activeItem.previousElementSibling) {
-    prevItem = activeItem.previousElementSibling;
-  } else {
-    // Se não há item anterior, vai para o último (loop)
-    prevItem = items[items.length - 1];
+  if (isMoving) return; // Bloqueia cliques durante o movimento/salto
+
+  // Verifica se o próximo clique levará ao clone inicial
+  if (currentIndex <= 1) {
+    isMoving = true; // Ativa a flag para que o scroll listener detecte o fim
   }
-  
-  if (prevItem) {
-    const containerWidth = container.offsetWidth;
-    const itemWidth = prevItem.offsetWidth;
-    const targetScroll = (prevItem.offsetLeft + (itemWidth / 2)) - (containerWidth / 2);
-    
-    container.scrollTo({
-      left: targetScroll,
-      behavior: "smooth"
-    });
-    
-    // Atualiza o item ativo após a animação de scroll
-    setTimeout(updateActiveItem, 500);
+
+  currentIndex--;
+  centralizarItem(currentIndex);
+
+  // Se não for para um clone, a transição normal já terminou
+  if (!isMoving) {
+    isMoving = false;
   }
 });
 
-// Atualiza o item ativo durante o scroll com debounce para performance
-let scrollTimeout;
-container.addEventListener('scroll', () => {
-  clearTimeout(scrollTimeout);
-  scrollTimeout = setTimeout(updateActiveItem, 50);
-});
+// Centralizar item ao carregar e ao redimensionar
+window.addEventListener("load", () => centralizarItem(currentIndex, false));
+window.addEventListener("resize", () => centralizarItem(currentIndex, false));
 
-// Inicialização quando a página carrega
-window.addEventListener('load', () => {
-  centerFirstItem();
-});
+// ---
 
-// Também inicializa quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', () => {
-  updateActiveItem();
-});
-
-// Recalcula quando a janela é redimensionada
-window.addEventListener('resize', () => {
-  centerFirstItem();
-});
-
-// ----- ANIMAÇÃO ON SCROLL (mantida para futuras implementações) -----
+// ----- ANIMAÇÃO ON SCROLL (mantida) -----
 const aboutSection = document.querySelector(".about-text");
 
 function checkVisibility() {
